@@ -1,0 +1,42 @@
+[
+  {
+    "unicode": "😀",
+    "name": "Grinning Face",
+    "description": "פרצוף עם חיוך רחב, פה פתוח, עיניים פקוחות ורגילות, מבטא שמחה כללית ובסיסית"
+  },
+  {
+    "unicode": "😄",
+    "name": "Grinning Face with Smiling Eyes",
+    "description": "פרצוף עם חיוך רחב, עיניים סגורות ומחייכות בצורת קשת, מבטא שמחה נלהבת וצחוק"
+  },
+  {
+    "unicode": "🤩",
+    "name": "Star-Struck",
+    "description": "פרצוף עם עיניים בצורת כוכבים זוהרים, פה פתוח בהתלהבות, מבטא התלהבות והתפעלות"
+  },
+  {
+    "unicode": "😢",
+    "name": "Crying Face",
+    "description": "פרצוף עצוב עם דמעה אחת יורדת מהעין, גבות מורדות, פה קמור כלפי מטה"
+  },
+  {
+    "unicode": "😡",
+    "name": "Pouting Face",
+    "description": "פרצוף אדום עם גבות מכווצות כלפי מטה, פה קפוץ, מבטא כעס חזק"
+  },
+  {
+    "unicode": "🙌",
+    "name": "Raising Hands",
+    "description": "שתי ידיים פתוחות מורמות באוויר, ללא פרצוף, מבטאות חגיגה או שמחה"
+  },
+  {
+    "unicode": "😮",
+    "name": "Face with Open Mouth",
+    "description": "פרצוף עם פה פתוח בצורת אליפסה, עיניים פקוחות לרווחה, מבטא הפתעה"
+  },
+  {
+    "unicode": "🥲",
+    "name": "Smiling Face with Tear",
+    "description": "פרצוף מחייך עם דמעה אחת בעין, מבטא רגש מעורב של שמחה עם עצב או התרגשות"
+  }
+]
