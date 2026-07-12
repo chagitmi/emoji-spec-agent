@@ -40,7 +40,10 @@ def get_existing_emojis_collection():
         return _existing_emojis_collection
 
     _chroma_client = chromadb.Client()
-    _existing_emojis_collection = _chroma_client.get_or_create_collection(name="existing_emojis")
+    _existing_emojis_collection = _chroma_client.get_or_create_collection(
+        name="existing_emojis",
+        metadata={"hnsw:space": "cosine"},
+    )
 
     if _existing_emojis_collection.count() == 0:
         data_path = os.path.join(os.path.dirname(__file__), "data", "existing_emojis.json")

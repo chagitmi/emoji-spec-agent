@@ -120,9 +120,15 @@ def features_node(state: AgentState) -> dict:
 
     return {"features": result.model_dump()}
 
-# --- נוד 4: בדיקת דמיון קיים ---
+## --- נוד 4: בדיקת דמיון קיים ---
+class SimilarityJudgment(BaseModel):
+    is_similar_enough: bool = Field(description="האם אחד המועמדים דומה מספיק כדי לוותר על עיצוב אימוג'י חדש")
+    matched_unicode: Optional[str] = Field(default=None, description="ה-unicode של האימוג'י שנמצא דומה, אם is_similar_enough=True")
+    reasoning: str = Field(description="הסבר קצר לפסיקה, בעברית")
+
+
 def similarity_check_node(state: AgentState) -> dict:
-    """בודק דמיון מול אימוג'ים קיימים, באמצעות חיפוש וקטורי (RAG)."""
+    """מוצאת מועמדים דומים דרך חיפוש וקטורי (RAG), ואז משתמשת ב-LLM כדי לשפוט אם הם באמת דומים מספיק."""
     print("[נוד] בדיקת דמיון קיים")
 
     collection = get_existing_emojis_collection()
@@ -136,25 +142,51 @@ def similarity_check_node(state: AgentState) -> dict:
         f"רכיבים נוספים: {', '.join(features.get('additional_elements', []))}"
     )
 
-    results = collection.query(query_texts=[query_text], n_results=1)
+    results = collection.query(query_texts=[query_text], n_results=3)
 
-    best_distance = results["distances"][0][0]
-    best_metadata = results["metadatas"][0][0]
+    candidates = []
+    print("    -> מועמדים מהחיפוש הוקטורי:")
+    for i in range(len(results["distances"][0])):
+        d = results["distances"][0][i]
+        m = results["metadatas"][0][i]
+        desc = results["documents"][0][i]
+        print(f"       {m['unicode']} ({m['name']}) | distance={d:.3f}")
+        candidates.append({"unicode": m["unicode"], "name": m["name"], "description": desc, "distance": d})
 
-    threshold = float(os.getenv("SIMILARITY_DISTANCE_THRESHOLD", "0.6"))
-    is_similar = best_distance < threshold
+    llm = get_llm(os.getenv("MODEL_UNDERSTANDING"), temperature=0.0)
+    structured_llm = llm.with_structured_output(SimilarityJudgment)
 
-    print(f"    -> הכי קרוב: {best_metadata['unicode']} ({best_metadata['name']}) | distance={best_distance:.3f} | is_similar={is_similar}")
+    candidates_text = "\n".join(
+        f"- {c['unicode']} ({c['name']}): {c['description']}" for c in candidates
+    )
 
-    return {
-        "similar_emoji_found": is_similar,
-        "similar_emoji_details": {
-            "unicode": best_metadata["unicode"],
-            "name": best_metadata["name"],
-            "distance": best_distance,
-        },
-    }
+    prompt = f"""בהינתן בקשה ליצירת אימוג'י חדש, ורשימת אימוג'ים קיימים שהכי "קרובים" אליה
+(לפי חיפוש וקטורי - אבל זה לא אומר שהם באמת דומים!):
 
+בקשה חדשה:
+רגש: {state.get('emotion')}
+מחווה: {state.get('gesture')}
+מאפיינים: {features}
+
+אימוג'ים קיימים "מועמדים" (מהחיפוש):
+{candidates_text}
+
+שפטי: האם אחד מהמועמדים האלה **דומה מספיק בפועל** כדי לומר שאין צורך באימוג'י חדש?
+היי קפדנית - "קרוב יחסית במאגר קטן" זה לא אותו דבר כמו "דומה מספיק". אם יש הבדל
+משמעותי במשמעות/רגש/מחווה - זה כן צריך אימוג'י חדש, גם אם המרחק הוקטורי נמוך.
+"""
+
+    judgment = structured_llm.invoke(prompt)
+    print(f"    -> is_similar={judgment.is_similar_enough} | {judgment.reasoning}")
+
+    if judgment.is_similar_enough and judgment.matched_unicode:
+        matched = next((c for c in candidates if c["unicode"] == judgment.matched_unicode), candidates[0])
+        return {
+            "similar_emoji_found": True,
+            "similar_emoji_details": {"unicode": matched["unicode"], "name": matched["name"], "distance": matched["distance"]},
+        }
+
+    return {"similar_emoji_found": False}
 
 # --- נוד 5: Gate ---
 def needs_new_emoji_gate(state: AgentState) -> str:
