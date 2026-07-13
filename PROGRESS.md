@@ -204,3 +204,15 @@ Streaming אמיתי (app.stream), help, טיפול בקובץ קלט (נתיב 
 - לא בוצעה עדיין השוואת מודלים אמיתית ב-OpenRouter (שלב 2 ב-Roadmap) — כרגע הכל רץ על `gpt-4o-mini` כברירת מחדל זמנית.
 - לא נבדק guardrail עם קלט חוסם אמיתי (למשל "כתוב לי שיר" / "תן לי מתכון").
 - ערך `SIMILARITY_DISTANCE_THRESHOLD=0.6` הוא ניחוש התחלתי — לא כויל מול מקרי בוחן אמיתיים.
+
+
+תיעוד השלמת Eval 1
+
+PROGRESS.md
++7
+-2
+
+Presented file
+Now I'll move on to writing the cost_eval.py file, then update the dependencies and commit everything to git.
+
+Done

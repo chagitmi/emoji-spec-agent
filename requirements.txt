@@ -11,3 +11,4 @@ python-dotenv>=1.0.0
 pydantic>=2.7.0
 tiktoken>=0.7.0
 pyinstaller>=6.0.0
+matplotlib>=3.9.0

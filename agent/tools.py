@@ -8,10 +8,12 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 OPENROUTER_BASE_URL = os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
 
 
-def get_llm(model_name: str, temperature: float = 0.3) -> ChatOpenAI:
+def get_llm(model_name: str, temperature: float = 0.3, max_tokens: int = 2000) -> ChatOpenAI:
     """
     מחזיר אובייקט LLM מוכן לשימוש, מחובר ל-OpenRouter.
     model_name: מזהה המודל כפי שמופיע ב-OpenRouter, למשל "openai/gpt-4o-mini"
+    max_tokens: תקרת טוקנים לתשובה - מוגבלת בכוונה, כדי שמודלים לא "יבקשו" תקציב ענק
+                שחורג מהיתרה הזמינה בחשבון (רלוונטי בעיקר למודלים עם max context גדול).
     """
     if not OPENROUTER_API_KEY:
         raise ValueError("חסר OPENROUTER_API_KEY - ודאי שהוא מוגדר בקובץ .env")
@@ -21,6 +23,7 @@ def get_llm(model_name: str, temperature: float = 0.3) -> ChatOpenAI:
         api_key=OPENROUTER_API_KEY,
         base_url=OPENROUTER_BASE_URL,
         temperature=temperature,
+        max_tokens=max_tokens,
     )
 import json
 import chromadb
