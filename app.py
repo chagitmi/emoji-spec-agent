@@ -2,7 +2,15 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import streamlit as st
 
+# על Streamlit Cloud, Secrets מוגדרים בממשק שלהם - נוודא שהם גם ב-os.environ,
+# כדי ש-agent/tools.py (שקורא דרך os.getenv) ימצא אותם באותה צורה בין אם
+# מריצים מקומית (.env) או בענן (Secrets).
+if hasattr(st, "secrets"):
+    for key in st.secrets:
+        os.environ[key] = str(st.secrets[key])
+        
 import streamlit as st
 from dotenv import load_dotenv
 

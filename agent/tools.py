@@ -4,9 +4,22 @@ from langchain_openai import ChatOpenAI
 
 load_dotenv()
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-OPENROUTER_BASE_URL = os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
 
+def _sanitize_env_value(value: str | None) -> str | None:
+    """
+    מנקה ערך שהגיע ממשתני סביבה מתווים בלתי-נראים (RTL marks, zero-width
+    spaces, BOM וכו') שלפעמים "נדבקים" בהעתק-הדבק, ושוברים קידוד ASCII
+    הנדרש ל-HTTP headers. שומר רק תווי ASCII רגילים.
+    """
+    if value is None:
+        return None
+    cleaned = value.strip()
+    cleaned = cleaned.encode("ascii", errors="ignore").decode("ascii")
+    return cleaned
+
+
+OPENROUTER_API_KEY = _sanitize_env_value(os.getenv("OPENROUTER_API_KEY"))
+OPENROUTER_BASE_URL = _sanitize_env_value(os.getenv("OPENROUTER_BASE_URL")) or "https://openrouter.ai/api/v1"
 
 def get_llm(model_name: str, temperature: float = 0.3, max_tokens: int = 2000) -> ChatOpenAI:
     """
