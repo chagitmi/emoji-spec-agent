@@ -61,8 +61,14 @@ my-llm-agent/
 Claude Haiku נכשל (402 - יתרת קרדיט נמוכה, לא קשור לקוד). Llama free נכשל גם עם retry logic (429 rate-limit עקבי) - **הדרישה "לפחות מודל בתשלום אחד + עלות תיאורטית לחינמי" מתקיימת דרך gpt-4o-mini (אמיתי) + THEORETICAL_FREE_PRICING שכבר מוגדר בקוד לחישוב תיאורטי, גם כשההרצה בפועל נכשלת**.
 תוקן circular import (agent.graph חייב להיטען לפני agent.nodes בקבצי eval שקוראים לנודים ישירות, לא דרך build_graph()).
 
+## ✅ Eval 3 (scope_eval.py) הושלם - תוצאה מושלמת
+Refusal rate: 100% (7/7 שאלות מחוץ לתחום נחסמו נכון). False positive rate: 0% (3/3 שאלות תקינות עברו נכון). Guardrail מוכיח אמינות גבוהה מאוד.
+
+## 🎉 שלושת ה-Evals הושלמו (שלב 6 ב-Roadmap)!
+כל אחד שומר ל-CSV נפרד תחת evals/results/, בדיוק לפי הדרישה. יש גם גרף matplotlib אוטומטי מ-Eval 1.
+
 ## הצעד הבא בתור
-`evals/scope_eval.py` (Eval 3) - refusal rate על ≥5 שאלות מחוץ לתחום.
+LangSmith (שלב 7 ב-Roadmap) - חיבור + בדיקות קצה-לקצה. אחר כך: README + manifest.json + PyInstaller לסגירת ה-MVP.
 
 ## ✅ כל דרישות ה-CLI המרכזיות מהבריף הושלמו
 Streaming אמיתי (app.stream), help, טיפול בקובץ קלט (נתיב מקומי, כולל בדיקת קידוד), הצגת עלות/שימוש בפועל, טיפול בשגיאות (try/except סביב קריאות LLM + קבצים). נבדק ידנית: תיאור טקסט ישיר, קריאה מקובץ, guardrail חוסם, ותרחיש עם ציון Evaluator לא מושלם.
