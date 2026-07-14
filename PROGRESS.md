@@ -67,8 +67,13 @@ Refusal rate: 100% (7/7 שאלות מחוץ לתחום נחסמו נכון). Fal
 ## 🎉 שלושת ה-Evals הושלמו (שלב 6 ב-Roadmap)!
 כל אחד שומר ל-CSV נפרד תחת evals/results/, בדיוק לפי הדרישה. יש גם גרף matplotlib אוטומטי מ-Eval 1.
 
+## ✅ LangSmith מחובר ועובד (שלב 7 ב-Roadmap הושלם)
+נבדק בפועל - traces מלאים נקלטים בפרויקט emoji-spec-agent, עם עץ מלא של כל נודי הגרף כ-nested runs, כולל פרומפטים מדויקים/תשובות/זמן/טוקנים לכל נוד.
+בעיה שנפתרה: היו 2 חסמים נפרדים - (1) NetFree חסם את smith.langchain.com + api.smith.langchain.com, נפתר בהוספה לרשימה הלבנה. (2) לאחר הפתרון, עדיין לא נראו traces בממשק - התברר שזו לא בעיית קוד אלא בעיית workspace: יש כמה workspaces בחשבון LangSmith והממשק הצביע על אחד לא נכון כברירת מחדל. נפתר בגישה ישירה דרך URL עם tenant_id + project_id שהתקבלו מ-`Client().list_projects()` (בדיקת אימות ישירה, לא דרך tracing "שקט" שבולע שגיאות).
+לזכור: כדאי לשמור bookmark של ה-URL הישיר לפרויקט ב-LangSmith, כי הניווט הרגיל דרך התפריט לא הוביל אליו.
+
 ## הצעד הבא בתור
-LangSmith (שלב 7 ב-Roadmap) - חיבור + בדיקות קצה-לקצה. אחר כך: README + manifest.json + PyInstaller לסגירת ה-MVP.
+README.md מלא + manifest.json + PyInstaller (agent.exe) - סגירת ה-MVP הרשמי. אחר כך בונוסים.
 
 ## ✅ כל דרישות ה-CLI המרכזיות מהבריף הושלמו
 Streaming אמיתי (app.stream), help, טיפול בקובץ קלט (נתיב מקומי, כולל בדיקת קידוד), הצגת עלות/שימוש בפועל, טיפול בשגיאות (try/except סביב קריאות LLM + קבצים). נבדק ידנית: תיאור טקסט ישיר, קריאה מקובץ, guardrail חוסם, ותרחיש עם ציון Evaluator לא מושלם.
