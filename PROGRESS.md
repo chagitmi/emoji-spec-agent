@@ -77,8 +77,33 @@ Refusal rate: 100% (7/7 שאלות מחוץ לתחום נחסמו נכון). Fal
 **פתרון:** פרומפט השיפוט בנוד 4 מקבל כעת גם את `state.get('user_input')` המקורי (לא רק emotion/gesture/features), עם הנחיה מפורשת לתת לו משקל עליון על פני מאפיינים "מנופחים". נבדק בהצלחה: "פרצוף מחייך" מזוהה כעת נכון כדומה ל-😀.
 **תובנה מעניינת ל-README:** יש מתח מובנה בארכיטקטורה בין "העשרת בקשות כלליות ליצירתיות" (נוד 3) לבין "זיהוי נכון של פתרון קיים" (נוד 4) - שני הצרכים לגיטימיים אך יכולים לסתור זה את זה אם נוד 4 לא רואה את ההקשר המקורי.
 
+## ✅ README.md מלא נכתב (ארכיטקטורה, התקנה, תוצאות Evals, החלטות טכניות, מגבלות, roadmap)
+
+## ✅ נוסף UI ב-Streamlit (app.py בשורש) - עטיפה נוספת סביב אותו build_graph(), לא שינוי לוגיקה
+נבדק מקומית ועובד. תוכנן כך שאפשר להוסיף בעתיד גם Tauri+FastAPI (מהבריף המקורי) כעטיפה שלישית, בלי לגעת בגרף.
+
+## ✅ manifest.json מולא לפי נספח 1 של המטלה + נוצר SKILLS.md
+manifest.json דורש מילוי ידני של creator_name + contact_information (placeholders TODO כרגע). download_url מצביע ל-v1.0.0/agent.exe שעדיין לא קיים בפועל (ממתין ל-PyInstaller). code_execution: false נכון להיום, לעדכן ל-true כשייבנה בונוס ה-SVG.
+SKILLS.md מתעד מוסכמות קוד (מבנה נוד, RAG retrieve-then-verify, sanitize env, temperature conventions, circular imports) - לקריאה על ידי כל AI/מפתח שממשיך את הפרויקט.
+
+## 🔍 בדיקת דרישות UX מול נספח המטלה - פערים שנמצאו
+- ✅ Streaming, עלות/שימוש, קוד ב-GitHub, בלי ניהול זיכרון ארוך, CLI: קובץ קלט (נתיב מקומי)
+- 🟡 **Streamlit: חסר widget להעלאת קובץ בגרירה** - לתקן
+- 🟡 **Streamlit: חסר כפתור "עזרה" מפורש** (יש sidebar כללי, לא מדריך שימוש ממוקד)
+- ❌ **Streamlit: טיפול בשגיאות גרוע** - traceback גולמי מוצג למשתמש (ראינו UnicodeEncodeError חשוף לגמרי) - **לתקן בדחיפות, דרישה מפורשת "שגיאות בצורה ברורה ומובנת"**
+- N/A MCP - לא רלוונטי לפרויקט (RAG פנימי, לא MCP)
+- ❌ HITL לפני קוד/קבצים - זה בדיוק בונוס Code-Exec/SVG, טרם נבנה
+- לא חובה: כפתור "תקציר שיחה" להורדה (מנוסח כ"ניתן להוסיף", אופציונלי)
+
+## 🐛 Streamlit Cloud - בעיה פתוחה, לא נפתרה סופית
+נסיון גישה ממחשב אחר: (1) UnicodeEncodeError - טופל עם _sanitize_env_value + הזרקת st.secrets ל-os.environ. (2) "Received no response from server, Code: 1ST" - תקלת תשתית Streamlit Cloud, לא קשורה לקוד. (3) ERR_CERT_AUTHORITY_INVALID ממחשב נוסף - כנראה HTTPS interception של NetFree באותה רשת, לא בעיה למשתמשי קצה רגילים. **טרם אושר שהאתר עובד בפועל ממחשב/רשת חיצוניים נקיים.**
+
 ## הצעד הבא בתור
-README.md מלא + manifest.json + PyInstaller (agent.exe) - סגירת ה-MVP הרשמי. אחר כך בונוסים.
+1. לוודא ש-Streamlit Cloud עובד בפועל (רשת נקייה, לא NetFree).
+2. לתקן ב-app.py: טיפול שגיאות ידידותי (try/except סביב app.stream), st.file_uploader, כפתור/expander "עזרה".
+3. להשלים creator_name/contact_information ב-manifest.json (פרטים אישיים - לא ממולא על ידי Claude).
+4. PyInstaller (agent.exe) + GitHub Release v1.0.0.
+5. אחרי שהכל "פיקס" - לחזור לבונוסים: image generation, קלט תמונה, 7 פלטפורמות.
 
 ## ✅ כל דרישות ה-CLI המרכזיות מהבריף הושלמו
 Streaming אמיתי (app.stream), help, טיפול בקובץ קלט (נתיב מקומי, כולל בדיקת קידוד), הצגת עלות/שימוש בפועל, טיפול בשגיאות (try/except סביב קריאות LLM + קבצים). נבדק ידנית: תיאור טקסט ישיר, קריאה מקובץ, guardrail חוסם, ותרחיש עם ציון Evaluator לא מושלם.

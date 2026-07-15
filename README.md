@@ -1,5 +1,11 @@
 # 🎨 Emoji Spec Agent
 
+
+🔗 **[נסו את האייג'נט כאן](
+https://emoji-spec-agent-plyyjngjt2n5b3g7jj5bbx.streamlit.app/
+)** (ממשק web, ללא התקנה)
+
+אייג'נט ממוקד-משימה...
 אייג'נט ממוקד-משימה שמייצר **מפרט עיצובי מובנה** לאימוג'י חדש, מותאם לסגנון הוויזואלי של פלטפורמות שונות (Apple / Google / Samsung), מתוך תיאור טקסטואלי חופשי בעברית.
 
 נבנה עם **LangGraph**, **OpenRouter**, **RAG כפול**, **LLM-as-judge Evaluator**, ו-**LangSmith** לניטור.

@@ -1,0 +1,46 @@
+{
+  "name": "Emoji Spec Agent",
+  "version": "1.0.0",
+  "description": "A task-focused agent that generates structured, platform-specific emoji design specifications (colors, shapes, outlines, unique traits) from free-text emotional descriptions, using RAG over style guides and an LLM-as-judge evaluator.",
+  "creator_name": "chagit milezki",
+  "contact_information": "chagit.milezki@gmail.com",
+  "release_date": "2026-07-14",
+  "repository_url": "https://github.com/chagitmi/emoji-spec-agent",
+  "download_url": "https://github.com/chagitmi/emoji-spec-agent/releases/download/v1.0.0/agent.exe",
+
+  "target_audience": "Product Designers, UX Researchers, Emoji/Icon Designers, Platform Design Teams",
+  "professional_fields": [
+    "UI/UX Design", "Product Design", "Digital Communication"
+  ],
+  "tasks_capable_of_performing": [
+    "Emotion and Gesture Recognition from Free Text",
+    "Platform-Specific Design Specification Generation",
+    "Existing Emoji Similarity Detection (RAG)",
+    "Style Guide Retrieval and Application per Platform",
+    "Design Decision Explanation"
+  ],
+  "examples_of_suitable_questions": [
+    "פרצוף שמח עם עיניים נוצצות",
+    "אימוג'י של רובוט עם עיניים כחולות מרובעות",
+    "ידיים מוחאות כפיים בהתלהבות"
+  ],
+
+  "technical_specifications": {
+    "framework": "LangGraph",
+    "llm_provider": "OpenRouter",
+    "supported_models": [
+      "openai/gpt-4o-mini",
+      "anthropic/claude-haiku-4.5",
+      "meta-llama/llama-3.3-70b-instruct:free"
+    ],
+    "features_enabled": {
+      "rag": true,
+      "web_search": false,
+      "code_execution": false,
+      "mcp_support": false
+    },
+    "required_permissions": [
+      "local_file_read"
+    ]
+  }
+}
