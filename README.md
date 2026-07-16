@@ -130,6 +130,12 @@ python -m agent.cli
 
 בכל ריצה מוצגים: שלבי הביצוע בזמן אמת (streaming), המפרט הסופי, וטבלת עלות/שימוש בפועל (טוקנים + עלות ב-USD, לפי המודל שהיה בשימוש).
 
+
+### הרצה דרך agent.exe (ללא Python)
+
+1. הורידי את `agent.exe` מעמוד ה-[Releases](https://github.com/chagitmi/emoji-spec-agent/releases) של הריפו.
+2. באותה תיקייה שבה שמרת את `agent.exe`, צרי קובץ `.env` (ראי `.env.example` בריפו) עם מפתח OpenRouter **שלך** - ה-exe אינו כולל שום מפתח מובנה.
+3. הריצי את `agent.exe` (לחיצה כפולה, או מטרמינל).
 ---
 
 ## Evaluations - תוצאות ותובנות

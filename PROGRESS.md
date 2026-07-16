@@ -98,12 +98,21 @@ SKILLS.md מתעד מוסכמות קוד (מבנה נוד, RAG retrieve-then-ver
 ## 🐛 Streamlit Cloud - בעיה פתוחה, לא נפתרה סופית
 נסיון גישה ממחשב אחר: (1) UnicodeEncodeError - טופל עם _sanitize_env_value + הזרקת st.secrets ל-os.environ. (2) "Received no response from server, Code: 1ST" - תקלת תשתית Streamlit Cloud, לא קשורה לקוד. (3) ERR_CERT_AUTHORITY_INVALID ממחשב נוסף - כנראה HTTPS interception של NetFree באותה רשת, לא בעיה למשתמשי קצה רגילים. **טרם אושר שהאתר עובד בפועל ממחשב/רשת חיצוניים נקיים.**
 
+## 🎉🎉 MVP הרשמי הושלם במלואו! 🎉🎉
+כל דרישות הבריף המקורי מולאו: גרף+Guardrails+Evaluator+RAG כפול, CLI מלא (streaming/help/קבצים/עלות/שגיאות), 3 Evals עם CSV נפרד, LangSmith מחובר, README מלא, manifest.json מלא (נספח 1), .env.example, GitHub repo מתועד, ו-agent.exe כ-GitHub Release v1.0.0.
+
+תיקוני PyInstaller שנדרשו: נוספה resource_path() ב-tools.py שמזהה sys._MEIPASS (תיקיית קבצים זמנית של PyInstaller בזמן ריצה) ומחזירה נתיב נכון גם בפיתוח וגם ב-exe ארוז. עודכנו שני מקומות ב-tools.py (existing_emojis.json, style_guides.json) ומקום אחד ב-nodes.py (rubric.md). .env נשאר מחוץ ל-exe בכוונה (לא נארז) - חייב לשבת ליד agent.exe עם מפתח אישי של כל משתמש.
+בעיית Release: פרסום ראשון יצר תג אוטומטי "untagged-..." במקום v1.0.0 (לא נבחרה אופציית "Create new tag" בזמן היצירה) - תוקן בעריכת ה-Release הקיים ותיקון שם התג ל-v1.0.0 בדיוק.
+
+## 📝 הערות מהמורה (אחרי בדיקה) - בטיפול
+1. **תוקן:** 2/3 מודלים ב-compare_models.py נפלו על קווטה (402/429). הוחלף: claude-haiku-4.5 → google/gemini-2.0-flash-001 (בתשלום, זול יותר), meta-llama-70b:free → meta-llama-3.2-3b:free (קטן יותר, פחות עמוס). דורש גם הטענת קרדיט מספקת ($5-10) לפני הרצה מחדש - טרם הורץ eval 1 מחדש עם המודלים החדשים.
+2. **תוקן (בעיה שלי - Claude):** .gitignore הכיל בטעות `evals/results/*.csv` שמנע מתוצאות ה-Evals להיכנס ל-Git בכלל. הוסר, קבצי התוצאות הועלו בפועל.
+3. **המלצת המורה - עדיפות עליונה לבונוס הבא:** בניית נוד Code-Exec שמייצר SVG בפועל מה-spec (לא רק טקסט) - לפני קלט תמונה/image generation. עדיפות על פני שאר הבונוסים.
+
 ## הצעד הבא בתור
-1. לוודא ש-Streamlit Cloud עובד בפועל (רשת נקייה, לא NetFree).
-2. לתקן ב-app.py: טיפול שגיאות ידידותי (try/except סביב app.stream), st.file_uploader, כפתור/expander "עזרה".
-3. להשלים creator_name/contact_information ב-manifest.json (פרטים אישיים - לא ממולא על ידי Claude).
-4. PyInstaller (agent.exe) + GitHub Release v1.0.0.
-5. אחרי שהכל "פיקס" - לחזור לבונוסים: image generation, קלט תמונה, 7 פלטפורמות.
+1. להריץ מחדש compare_models.py עם המודלים המתוקנים, לוודא 3/3 מצליחים.
+2. לוודא שכל תוצאות ה-Evals אכן ב-GitHub בפועל (לא רק מקומית).
+3. **בונוס בעדיפות עליונה:** נוד Code-Exec ל-SVG מה-spec, כולל HITL לפני יצירת קובץ - מומלץ לתכנן בשיחה חדשה/ממוקדת.
 
 ## ✅ כל דרישות ה-CLI המרכזיות מהבריף הושלמו
 Streaming אמיתי (app.stream), help, טיפול בקובץ קלט (נתיב מקומי, כולל בדיקת קידוד), הצגת עלות/שימוש בפועל, טיפול בשגיאות (try/except סביב קריאות LLM + קבצים). נבדק ידנית: תיאור טקסט ישיר, קריאה מקובץ, guardrail חוסם, ותרחיש עם ציון Evaluator לא מושלם.

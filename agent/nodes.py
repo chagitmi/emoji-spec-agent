@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 from agent.graph import AgentState
 from agent.tools import get_llm, get_existing_emojis_collection, get_style_guides_collection
-
+from agent.tools import resource_path
 
 # --- נוד 0: Guardrail ---
 class GuardrailResult(BaseModel):
@@ -304,7 +304,8 @@ def evaluator_node(state: AgentState) -> dict:
 
     retry_count = state.get("retry_count", 0) + 1
 
-    rubric_path = os.path.join(os.path.dirname(__file__), "..", "evals", "rubric.md")
+   
+    rubric_path = resource_path(os.path.join("evals", "rubric.md"))
     with open(rubric_path, "r", encoding="utf-8") as f:
         rubric_text = f.read()
 

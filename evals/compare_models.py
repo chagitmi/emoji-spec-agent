@@ -23,8 +23,8 @@ TEST_CASES = [
 
 MODELS_TO_COMPARE = [
     "openai/gpt-4o-mini",
-    "anthropic/claude-haiku-4.5",
-    "meta-llama/llama-3.3-70b-instruct:free",
+    "google/gemini-2.5-flash-lite",
+    "meta-llama/llama-3.2-3b-instruct:free",
 ]
 
 RESULTS_PATH = os.path.join(os.path.dirname(__file__), "results", "compare_models.csv")

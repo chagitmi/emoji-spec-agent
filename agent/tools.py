@@ -1,6 +1,21 @@
 import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
+import sys
+
+
+def resource_path(relative_path: str) -> str:
+    """
+    מחזירה נתיב תקין לקובץ נתונים (JSON, rubric.md וכו'), בין אם רצים
+    בפיתוח רגיל (python -m agent.cli) ובין אם מתוך agent.exe שנארז
+    ב-PyInstaller (--onefile). ב-PyInstaller, קבצים שנארזו עם --add-data
+    נשלפים בזמן ריצה לתיקייה זמנית שכתובתה ב-sys._MEIPASS.
+    """
+    if hasattr(sys, "_MEIPASS"):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 load_dotenv()
 
@@ -21,7 +36,7 @@ def _sanitize_env_value(value: str | None) -> str | None:
 OPENROUTER_API_KEY = _sanitize_env_value(os.getenv("OPENROUTER_API_KEY"))
 OPENROUTER_BASE_URL = _sanitize_env_value(os.getenv("OPENROUTER_BASE_URL")) or "https://openrouter.ai/api/v1"
 
-def get_llm(model_name: str, temperature: float = 0.3, max_tokens: int = 2000) -> ChatOpenAI:
+def get_llm(model_name: str, temperature: float = 0.3, max_tokens: int = 4000) -> ChatOpenAI:
     """
     מחזיר אובייקט LLM מוכן לשימוש, מחובר ל-OpenRouter.
     model_name: מזהה המודל כפי שמופיע ב-OpenRouter, למשל "openai/gpt-4o-mini"
@@ -62,7 +77,7 @@ def get_existing_emojis_collection():
     )
 
     if _existing_emojis_collection.count() == 0:
-        data_path = os.path.join(os.path.dirname(__file__), "data", "existing_emojis.json")
+        data_path = resource_path(os.path.join("agent", "data", "existing_emojis.json"))
         with open(data_path, "r", encoding="utf-8") as f:
             emojis = json.load(f)
 
@@ -89,7 +104,7 @@ def get_style_guides_collection():
     _style_guides_collection = _chroma_client.get_or_create_collection(name="style_guides")
 
     if _style_guides_collection.count() == 0:
-        data_path = os.path.join(os.path.dirname(__file__), "data", "style_guides.json")
+        data_path = resource_path(os.path.join("agent", "data", "style_guides.json"))        
         with open(data_path, "r", encoding="utf-8") as f:
             chunks = json.load(f)
 
