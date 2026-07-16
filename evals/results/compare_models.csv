@@ -1,0 +1,16 @@
+model,test_input,success,error,time_seconds,eval_score
+openai/gpt-4o-mini,פרצוף שמח עם עיניים נוצצות,True,,27.54,1.0
+openai/gpt-4o-mini,אימוג'י של רובוט עם עיניים כחולות מרובעות,True,,25.69,1.0
+openai/gpt-4o-mini,פרצוף עייף שמפהק בבוקר,True,,25.96,0.9
+openai/gpt-4o-mini,ידיים מוחאות כפיים בהתלהבות,True,,27.34,1.0
+openai/gpt-4o-mini,פרצוף עם דמעה אחת ועיניים נוצצות משמחה,True,,28.86,1.0
+anthropic/claude-haiku-4.5,פרצוף שמח עם עיניים נוצצות,True,,54.2,1.0
+anthropic/claude-haiku-4.5,אימוג'י של רובוט עם עיניים כחולות מרובעות,True,,53.93,0.85
+anthropic/claude-haiku-4.5,פרצוף עייף שמפהק בבוקר,True,,58.0,1.0
+anthropic/claude-haiku-4.5,ידיים מוחאות כפיים בהתלהבות,True,,50.49,1.0
+anthropic/claude-haiku-4.5,פרצוף עם דמעה אחת ועיניים נוצצות משמחה,False,"Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 2000 tokens, but can only afford 1720. To increase, visit https://openrouter.ai/se",35.14,
+meta-llama/llama-3.3-70b-instruct:free,פרצוף שמח עם עיניים נוצצות,False,"Error code: 429 - {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'meta-llama/llama-3.3-70b-instruct:free is temporarily rate-limited upstream. Please retry shortly, ",159.09,
+meta-llama/llama-3.3-70b-instruct:free,אימוג'י של רובוט עם עיניים כחולות מרובעות,False,"Error code: 429 - {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'meta-llama/llama-3.3-70b-instruct:free is temporarily rate-limited upstream. Please retry shortly, ",179.16,
+meta-llama/llama-3.3-70b-instruct:free,פרצוף עייף שמפהק בבוקר,False,"Error code: 429 - {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'meta-llama/llama-3.3-70b-instruct:free is temporarily rate-limited upstream. Please retry shortly, ",180.24,
+meta-llama/llama-3.3-70b-instruct:free,ידיים מוחאות כפיים בהתלהבות,False,"Error code: 429 - {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'meta-llama/llama-3.3-70b-instruct:free is temporarily rate-limited upstream. Please retry shortly, ",180.3,
+meta-llama/llama-3.3-70b-instruct:free,פרצוף עם דמעה אחת ועיניים נוצצות משמחה,False,"Error code: 429 - {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'meta-llama/llama-3.3-70b-instruct:free is temporarily rate-limited upstream. Please retry shortly, ",180.58,
